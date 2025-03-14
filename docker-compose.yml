@@ -1,0 +1,27 @@
+services:
+  keycloak:
+    image: keycloak/keycloak:latest
+    profiles:
+      - kc
+    environment:
+      KC_CACHE: local
+      KC_HTTP_ENABLED: true
+      KC_BOOTSTRAP_ADMIN_USERNAME: admin
+      KC_BOOTSTRAP_ADMIN_PASSWORD: admin
+      KC_HOSTNAME_STRICT: false
+    ports:
+      - "8080:8080"
+    entrypoint: /opt/keycloak/bin/kc.sh start --import-realm
+    volumes:
+      - ./import:/opt/keycloak/data/import
+  apisix:
+#    image: apache/apisix
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: apache-apisix
+    volumes:
+      - ./apisix.yaml:/usr/local/apisix/conf/apisix.yaml
+    network_mode: host
+    environment:
+      APISIX_STAND_ALONE: true

@@ -1,0 +1,28 @@
+{
+  "realm" : "test",
+  "users" : [ {
+    "id" : "69310894-f097-434b-9f32-40b7388a8afd",
+    "username" : "123",
+    "firstName" : "123",
+    "lastName" : "123",
+    "email" : "123@123.123",
+    "emailVerified" : false,
+    "createdTimestamp" : 1739797379973,
+    "enabled" : true,
+    "totp" : false,
+    "credentials" : [
+      {
+        "type": "password",
+        "value": "123"
+      }
+    ],
+    "disableableCredentialTypes" : [ ],
+    "requiredActions" : [ ],
+    "realmRoles" : [ "default-roles-test" ],
+    "clientRoles" : {
+      "apisix" : [ "test" ]
+    },
+    "notBefore" : 0,
+    "groups" : [ ]
+  } ]
+}
