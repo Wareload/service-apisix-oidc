@@ -1,8 +1,6 @@
 services:
   keycloak:
     image: keycloak/keycloak:latest
-    profiles:
-      - kc
     environment:
       KC_CACHE: local
       KC_HTTP_ENABLED: true

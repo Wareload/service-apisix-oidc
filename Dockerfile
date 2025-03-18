@@ -4,6 +4,7 @@ WORKDIR /app
 COPY go.mod go.sum ./
 RUN go mod download && go mod verify
 COPY . .
+RUN go test ./...
 RUN CGO_ENABLED=0 GOOS=linux go build -o oidc .
 
 FROM apache/apisix:3.11.0-debian

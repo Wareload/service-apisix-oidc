@@ -8,7 +8,7 @@ routes:
       ext-plugin-pre-req:
         conf:
           - name: "oidc"
-            value: '{"body":"hello", "test":"test"}'
+            value: '{"discovery_url":"https://xxx/realms/xxx/.well-known/openid-configuration","user_path":"/user","client_id":"test","client_secret":"t7qvq07IIm8uCkqT9n7dmUPQhAYTKvj3","base_url":"http://localhost:9080","scope":"openid","login_path":"/login","logout_path":"/logout","callback_path":"/callback","userinfo_path":"/userinfo","post_logout_url":"/post-logout","post_login_url":"/post-login","cookie":{"name":"auth","path":"/","secure":true,"http_only":true,"same_site":"Lax","secret":"mysecurefixedkey1234567890123456"}}'
     upstream:
       nodes:
         "httpbin.org:80": 1
