@@ -13,7 +13,7 @@ services:
     volumes:
       - ./import:/opt/keycloak/data/import
   apisix:
-#    image: apache/apisix
+    #    image: apache/apisix
     build:
       context: .
       dockerfile: Dockerfile

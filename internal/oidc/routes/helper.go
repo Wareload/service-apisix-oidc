@@ -2,12 +2,12 @@ package routes
 
 import (
 	"errors"
+	"github.com/Wareload/service-apisix-oidc/internal/oidc/config"
+	"github.com/Wareload/service-apisix-oidc/internal/oidc/services/cookies"
+	"github.com/Wareload/service-apisix-oidc/internal/oidc/services/oidc"
 	"github.com/apache/apisix-go-plugin-runner/pkg/log"
 	"github.com/golang-jwt/jwt/v5"
 	"net/http"
-	"service-apisix-oidc/internal/oidc/config"
-	"service-apisix-oidc/internal/oidc/services/cookies"
-	"service-apisix-oidc/internal/oidc/services/oidc"
 	"time"
 )
 

@@ -2,11 +2,11 @@ package cookies
 
 import (
 	"fmt"
+	"github.com/Wareload/service-apisix-oidc/internal/oidc/config"
+	"github.com/Wareload/service-apisix-oidc/internal/oidc/services/crypto"
 	pkgHTTP "github.com/apache/apisix-go-plugin-runner/pkg/http"
 	"net/http"
 	"net/url"
-	"service-apisix-oidc/internal/oidc/config"
-	"service-apisix-oidc/internal/oidc/services/crypto"
 	"strings"
 	"time"
 )

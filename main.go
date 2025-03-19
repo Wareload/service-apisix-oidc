@@ -1,10 +1,10 @@
 package main
 
 import (
+	"github.com/Wareload/service-apisix-oidc/internal/oidc"
 	"github.com/apache/apisix-go-plugin-runner/pkg/log"
 	"github.com/apache/apisix-go-plugin-runner/pkg/plugin"
 	"github.com/apache/apisix-go-plugin-runner/pkg/runner"
-	"service-apisix-oidc/internal/oidc"
 )
 
 func main() {

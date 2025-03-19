@@ -1,10 +1,10 @@
 package routes
 
 import (
+	"github.com/Wareload/service-apisix-oidc/internal/oidc/config"
+	"github.com/Wareload/service-apisix-oidc/internal/oidc/services/cookies"
 	pkgHTTP "github.com/apache/apisix-go-plugin-runner/pkg/http"
 	"net/http"
-	"service-apisix-oidc/internal/oidc/config"
-	"service-apisix-oidc/internal/oidc/services/cookies"
 )
 
 func HandleProxy(config config.Conf, w http.ResponseWriter, r pkgHTTP.Request) {

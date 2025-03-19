@@ -2,7 +2,9 @@
 
 ## Introduction
 
-This plugin for [apache/apisix](https://github.com/apache/apisix) is used to implement the [token handler pattern](https://curity.io/resources/learn/the-token-handler-pattern/) and pass the access token to the upstream service.
+This plugin for [apache/apisix](https://github.com/apache/apisix) is used to implement
+the [token handler pattern](https://curity.io/resources/learn/the-token-handler-pattern/) and pass the access token to
+the upstream service.
 
 ## Endpoints
 
@@ -10,21 +12,19 @@ This plugin responds directly to the following endpoints.
 
 All other endpoints will be proxied upstream when authenticated.
 
-| Name        |                                                                              Description                                                                               |    Method |
-|:------------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------:|----------:|
-| Login       |                                                           Used by the application to trigger the login flow.                                                           |       GET |
-| Logout      | Endpoint to Logout from the application and the Identity Provider<br/>- can be called as Fetch/XHR<br/>- can be called as Doc and will redirect to the post logout url | GET, POST |
-| Callback    |                                     Callback Endpoint, used to finish the login flow, <br/>will redirec to the Post Login Endpoint                                     |       GET |
-| Userinfo    |                                                        Proxy for the userinfo endpoint of the Identity Provider                                                        |       GET |
-
+| Name     |                                                                              Description                                                                               |    Method |
+|:---------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------:|----------:|
+| Login    |                                                           Used by the application to trigger the login flow.                                                           |       GET |
+| Logout   | Endpoint to Logout from the application and the Identity Provider<br/>- can be called as Fetch/XHR<br/>- can be called as Doc and will redirect to the post logout url | GET, POST |
+| Callback |                                     Callback Endpoint, used to finish the login flow, <br/>will redirec to the Post Login Endpoint                                     |       GET |
+| Userinfo |                                                        Proxy for the userinfo endpoint of the Identity Provider                                                        |       GET |
 
 These endpoints can be configured to get redirected to a specific URL after the action is completed.
 
-| Name        |                                                                              Description                                                                               |    Method |
-|:------------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------:|----------:|
-| Post Login  |                                                             Redirect destination after successfully login.                                                             |       GET |
-| Post Logout |                                                                Endpoint to get redirected after Logout                                                                 |       GET |
-
+| Name        |                  Description                   | Method |
+|:------------|:----------------------------------------------:|-------:|
+| Post Login  | Redirect destination after successfully login. |    GET |
+| Post Logout |    Endpoint to get redirected after Logout     |    GET |
 
 ## Design Decisions
 
@@ -36,7 +36,6 @@ These endpoints can be configured to get redirected to a specific URL after the 
 - the signature of the tokens is not verified, this is the responsibility of the upstream service
 - the audience of the tokens is not verified, this is the responsibility of the upstream service
 - the cookies intended for this plugin are not send to the upstream service
-
 
 ## Configuration
 

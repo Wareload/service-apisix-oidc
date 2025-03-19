@@ -2,12 +2,12 @@ package routes
 
 import (
 	"encoding/json"
+	"github.com/Wareload/service-apisix-oidc/internal/oidc/config"
+	"github.com/Wareload/service-apisix-oidc/internal/oidc/services/cookies"
+	"github.com/Wareload/service-apisix-oidc/internal/oidc/services/oidc"
 	pkgHTTP "github.com/apache/apisix-go-plugin-runner/pkg/http"
 	"github.com/apache/apisix-go-plugin-runner/pkg/log"
 	"net/http"
-	"service-apisix-oidc/internal/oidc/config"
-	"service-apisix-oidc/internal/oidc/services/cookies"
-	"service-apisix-oidc/internal/oidc/services/oidc"
 )
 
 func HandleCallback(config config.Conf, w http.ResponseWriter, r pkgHTTP.Request) {

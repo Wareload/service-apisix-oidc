@@ -2,11 +2,11 @@ package oidc
 
 import (
 	"encoding/json"
+	"github.com/Wareload/service-apisix-oidc/internal/oidc/config"
 	"github.com/apache/apisix-go-plugin-runner/pkg/log"
 	"github.com/go-playground/validator/v10"
 	"io"
 	"net/http"
-	"service-apisix-oidc/internal/oidc/config"
 	"sync"
 	"time"
 )

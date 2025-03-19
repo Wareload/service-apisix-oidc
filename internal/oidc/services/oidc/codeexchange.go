@@ -5,10 +5,10 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
+	"github.com/Wareload/service-apisix-oidc/internal/oidc/config"
 	"io"
 	"net/http"
 	"net/url"
-	"service-apisix-oidc/internal/oidc/config"
 	"strings"
 )
 

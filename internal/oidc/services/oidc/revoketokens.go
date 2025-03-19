@@ -2,9 +2,9 @@ package oidc
 
 import (
 	"fmt"
+	"github.com/Wareload/service-apisix-oidc/internal/oidc/config"
 	"net/http"
 	"net/url"
-	"service-apisix-oidc/internal/oidc/config"
 	"strings"
 )
 

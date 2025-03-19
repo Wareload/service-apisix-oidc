@@ -2,12 +2,12 @@ package oidc
 
 import (
 	"encoding/json"
+	"github.com/Wareload/service-apisix-oidc/internal/oidc/config"
+	"github.com/Wareload/service-apisix-oidc/internal/oidc/routes"
 	pkgHTTP "github.com/apache/apisix-go-plugin-runner/pkg/http"
 	"github.com/apache/apisix-go-plugin-runner/pkg/plugin"
 	"github.com/go-playground/validator/v10"
 	"net/http"
-	"service-apisix-oidc/internal/oidc/config"
-	"service-apisix-oidc/internal/oidc/routes"
 )
 
 type Oidc struct {

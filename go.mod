@@ -1,4 +1,4 @@
-module service-apisix-oidc
+module github.com/Wareload/service-apisix-oidc
 
 go 1.23
 
