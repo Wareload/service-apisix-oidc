@@ -5,6 +5,7 @@ import (
 	"github.com/Wareload/service-apisix-oidc/internal/oidc/config"
 	"github.com/Wareload/service-apisix-oidc/internal/oidc/routes"
 	pkgHTTP "github.com/apache/apisix-go-plugin-runner/pkg/http"
+	"github.com/apache/apisix-go-plugin-runner/pkg/log"
 	"github.com/apache/apisix-go-plugin-runner/pkg/plugin"
 	"github.com/go-playground/validator/v10"
 	"net/http"
@@ -22,10 +23,14 @@ func (o Oidc) ParseConf(in []byte) (interface{}, error) {
 	conf := config.Conf{}
 	err := json.Unmarshal(in, &conf)
 	if err != nil {
+		log.Errorf("failed to unmarshal config: %v", err)
 		return nil, err
 	}
 	validate := validator.New(validator.WithRequiredStructEnabled())
 	err = validate.Struct(conf)
+	if err != nil {
+		log.Errorf("failed to validate config: %v", err)
+	}
 	return conf, err
 }
 
