@@ -26,17 +26,17 @@ func HandleUserinfo(config config.Conf, w http.ResponseWriter, r pkgHTTP.Request
 	}
 	wk, err := oidc.GetWellKnown(config)
 	if err != nil {
-		onServiceUnavailable(w)
+		onServiceUnavailable(w, err)
 		return
 	}
 	response, err := oidc.GetUserInfo(currentAccessToken, wk.UserinfoEP)
 	if err != nil {
-		onServiceUnavailable(w)
+		onServiceUnavailable(w, err)
 		return
 	}
 	_, err = w.Write([]byte(response))
 	if err != nil {
-		onInternalServerError(w)
+		onInternalServerError(w, err)
 		return
 	}
 	w.WriteHeader(http.StatusOK)

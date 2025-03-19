@@ -3,6 +3,7 @@ package routes
 import (
 	"encoding/json"
 	pkgHTTP "github.com/apache/apisix-go-plugin-runner/pkg/http"
+	"github.com/apache/apisix-go-plugin-runner/pkg/log"
 	"net/http"
 	"service-apisix-oidc/internal/oidc/config"
 	"service-apisix-oidc/internal/oidc/services/cookies"
@@ -21,7 +22,7 @@ func HandleCallback(config config.Conf, w http.ResponseWriter, r pkgHTTP.Request
 	cookies.DeleteCookie(w, config, cookies.AuthFlowCookieSuffix)
 	wk, err := oidc.GetWellKnown(config)
 	if err != nil {
-		onServiceUnavailable(w)
+		onServiceUnavailable(w, err)
 		return
 	}
 	cookie, err := cookies.GetCookie(r, config, cookies.AuthFlowCookieSuffix)
@@ -41,7 +42,7 @@ func HandleCallback(config config.Conf, w http.ResponseWriter, r pkgHTTP.Request
 	}
 	token, err := oidc.ExchangeCodeForToken(config, wk, code)
 	if err != nil {
-		onServiceUnavailable(w)
+		onServiceUnavailable(w, err)
 		return
 	}
 	if !isNonceMatching(token.IdToken, authFlow.Nonce) {
@@ -51,7 +52,8 @@ func HandleCallback(config config.Conf, w http.ResponseWriter, r pkgHTTP.Request
 	errAcc := cookies.SetCookie(w, config, token.AccessToken, cookies.AuthAccessCookieSuffix)
 	errRf := cookies.SetCookie(w, config, token.RefreshToken, cookies.AuthRefreshCookieSuffix)
 	if errAcc != nil || errRf != nil {
-		onInternalServerError(w)
+		log.Errorf("Failed to set cookies: %v, %v", errAcc, errRf)
+		onInternalServerError(w, err)
 		return
 	}
 	onRedirect(w, config.GetPostLoginUrl())

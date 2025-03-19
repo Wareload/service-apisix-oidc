@@ -8,7 +8,7 @@ import (
 	"strings"
 )
 
-func Logout(refreshToken string, conf config.Conf) error {
+func RevokeTokens(refreshToken string, conf config.Conf) error {
 	wk, err := GetWellKnown(conf)
 	if err != nil {
 		return err

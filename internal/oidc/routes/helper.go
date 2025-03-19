@@ -12,14 +12,10 @@ import (
 )
 
 func updateTokensIfNeeded(w http.ResponseWriter, conf config.Conf, accessToken, refreshToken string) (error, string) {
-
-	startTime := time.Now()
 	accExpired, err := isTokenExpired(accessToken, conf.Leeway)
 	if err != nil {
 		return err, ""
 	}
-	endTime := time.Now()
-	log.Infof(endTime.Sub(startTime).String())
 	if !accExpired {
 		return nil, accessToken
 	}
@@ -65,11 +61,13 @@ func onUnauthorized(w http.ResponseWriter, conf config.Conf) {
 	w.WriteHeader(http.StatusUnauthorized)
 }
 
-func onServiceUnavailable(w http.ResponseWriter) {
+func onServiceUnavailable(w http.ResponseWriter, err error) {
+	log.Warnf("Service unavailable: %v", err)
 	w.WriteHeader(http.StatusServiceUnavailable)
 }
 
-func onInternalServerError(w http.ResponseWriter) {
+func onInternalServerError(w http.ResponseWriter, err error) {
+	log.Errorf("Internal server error: %v", err)
 	w.WriteHeader(http.StatusInternalServerError)
 }
 

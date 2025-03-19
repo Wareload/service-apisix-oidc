@@ -17,12 +17,12 @@ func HandleLogin(config config.Conf, w http.ResponseWriter, r pkgHTTP.Request) {
 	}
 	wk, err := oidc.GetWellKnown(config)
 	if err != nil {
-		onServiceUnavailable(w)
+		onServiceUnavailable(w, err)
 		return
 	}
 	loginUrl, state, nonce, err := oidc.GenerateLoginURL(wk.AuthorizationEP, config.ClientId, config.Scope, config.GetRedirectUrl())
 	if err != nil {
-		onInternalServerError(w)
+		onInternalServerError(w, err)
 		return
 	}
 	marshal, err := json.Marshal(cookies.AuthFlow{
@@ -30,12 +30,12 @@ func HandleLogin(config config.Conf, w http.ResponseWriter, r pkgHTTP.Request) {
 		Nonce: nonce,
 	})
 	if err != nil {
-		onInternalServerError(w)
+		onInternalServerError(w, err)
 		return
 	}
 	err = cookies.SetCookie(w, config, string(marshal), cookies.AuthFlowCookieSuffix)
 	if err != nil {
-		onInternalServerError(w)
+		onInternalServerError(w, err)
 		return
 	}
 	onRedirect(w, loginUrl)
