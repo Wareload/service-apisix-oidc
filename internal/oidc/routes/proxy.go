@@ -17,9 +17,13 @@ func HandleProxy(config config.Conf, w http.ResponseWriter, r pkgHTTP.Request) {
 		onUnauthorized(w, config)
 		return
 	}
-	err, currentAccessToken := updateTokensIfNeeded(w, config, accessToken, refreshToken)
+	err, currentAccessToken, refreshed := updateTokensIfNeeded(w, config, accessToken, refreshToken)
 	if err != nil {
 		onUnauthorized(w, config)
+		return
+	}
+	if refreshed {
+		onTemporaryRedirect(w, r)
 		return
 	}
 	cookies.RemoveOwnCookiesFromHeader(r, config)

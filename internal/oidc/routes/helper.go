@@ -5,27 +5,28 @@ import (
 	"github.com/Wareload/service-apisix-oidc/internal/oidc/config"
 	"github.com/Wareload/service-apisix-oidc/internal/oidc/services/cookies"
 	"github.com/Wareload/service-apisix-oidc/internal/oidc/services/oidc"
+	pkgHTTP "github.com/apache/apisix-go-plugin-runner/pkg/http"
 	"github.com/apache/apisix-go-plugin-runner/pkg/log"
 	"github.com/golang-jwt/jwt/v5"
 	"net/http"
 	"time"
 )
 
-func updateTokensIfNeeded(w http.ResponseWriter, conf config.Conf, accessToken, refreshToken string) (error, string) {
+func updateTokensIfNeeded(w http.ResponseWriter, conf config.Conf, accessToken, refreshToken string) (err error, newAccessToken string, refreshed bool) {
 	accExpired, err := isTokenExpired(accessToken, conf.Leeway)
 	if err != nil {
-		return err, ""
+		return err, "", false
 	}
 	if !accExpired {
-		return nil, accessToken
+		return nil, accessToken, false
 	}
 	newToken, err := oidc.RefreshTokens(refreshToken, conf)
 	if err != nil {
-		return err, accessToken
+		return err, accessToken, false
 	}
 	errAcc := cookies.SetCookie(w, conf, newToken.AccessToken, cookies.AuthAccessCookieSuffix)
 	errRf := cookies.SetCookie(w, conf, newToken.RefreshToken, cookies.AuthRefreshCookieSuffix)
-	return errors.Join(errAcc, errRf), newToken.AccessToken
+	return errors.Join(errAcc, errRf), newToken.AccessToken, true
 }
 
 func isTokenExpired(raw string, leeway int) (bool, error) {
@@ -78,4 +79,14 @@ func onMethodNotAllowed(w http.ResponseWriter) {
 func onRedirect(w http.ResponseWriter, redirectUrl string) {
 	w.Header().Set("Location", redirectUrl)
 	w.WriteHeader(http.StatusFound)
+}
+
+func onTemporaryRedirect(w http.ResponseWriter, r pkgHTTP.Request) {
+	redirectURL := string(r.Path())
+	query := r.Args()
+	if query.Encode() != "" {
+		redirectURL += "?" + query.Encode()
+	}
+	w.Header().Set("Location", redirectURL)
+	w.WriteHeader(http.StatusTemporaryRedirect)
 }
