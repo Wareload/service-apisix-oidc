@@ -63,3 +63,29 @@ deployment:
         role: admin
 ext-plugin:
   cmd: ["/usr/local/apisix/plugins/oidc", "run"]
+nginx_config:
+  http_configuration_snippet: |
+    server
+    {
+        listen 9889;
+        server_tokens off;
+        root /usr/share/nginx/html;
+        index index.html;
+        gzip on;
+        gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript;
+
+        location / {
+        try_files $uri $uri/ /index.html;
+        }
+
+        location ~* \.(js|css|png|jpg|jpeg|gif|ico|svg|ttf|woff|woff2)$ {
+        expires 1y;
+        add_header Cache-Control "public";
+        try_files $uri $uri/ /index.html;
+        }
+
+        # deny dot files
+        location ~ /\. {
+        deny all;
+        }
+    }
