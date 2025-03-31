@@ -1,6 +1,7 @@
 package routes
 
 import (
+	"fmt"
 	"github.com/Wareload/service-apisix-oidc/internal/oidc/config"
 	"github.com/Wareload/service-apisix-oidc/internal/oidc/services/cookies"
 	pkgHTTP "github.com/apache/apisix-go-plugin-runner/pkg/http"
@@ -23,5 +24,5 @@ func HandleProxy(config config.Conf, w http.ResponseWriter, r pkgHTTP.Request) {
 		return
 	}
 	cookies.RemoveOwnCookiesFromHeader(r, config)
-	r.Header().Set("Authorization", currentAccessToken)
+	r.Header().Set("Authorization", fmt.Sprintf("Bearer %s", currentAccessToken))
 }
